@@ -70,7 +70,7 @@ fi
 
 tmphtml=$tmp/tmphtml
 rm $tmphtml >/dev/null 2>&1
-wget -O $tmphtml 'http://releases.ubuntu.com/' >/dev/null 2>&1
+wget -O $tmphtml 'http://mirror.lstn.net/ubuntu-releases/' >/dev/null 2>&1
 
 prec=$(fgrep Precise $tmphtml | head -1 | awk '{print $3}')
 trus=$(fgrep Trusty $tmphtml | head -1 | awk '{print $3}')
@@ -89,15 +89,15 @@ while true; do
     read -p " please enter your preference: [1|2|3]: " ubver
     case $ubver in
         [1]* )  download_file="ubuntu-$prec-server-amd64.iso"           # filename of the iso to be downloaded
-                download_location="http://releases.ubuntu.com/$prec/"     # location of the file to be downloaded
+                download_location="http://mirror.lstn.net/ubuntu-releases/$prec/"     # location of the file to be downloaded
                 new_iso_name="ubuntu-$prec-server-amd64-unattended.iso" # filename of the new iso file to be created
                 break;;
         [2]* )  download_file="ubuntu-$trus-server-amd64.iso"             # filename of the iso to be downloaded
-                download_location="http://releases.ubuntu.com/$trus/"     # location of the file to be downloaded
+                download_location="http://mirror.lstn.net/ubuntu-releases/$trus/"     # location of the file to be downloaded
                 new_iso_name="ubuntu-$trus-server-amd64-unattended.iso"   # filename of the new iso file to be created
                 break;;
         [3]* )  download_file="ubuntu-$xenn-server-amd64.iso"
-                download_location="http://releases.ubuntu.com/$xenn/"
+                download_location="http://mirror.lstn.net/ubuntu-releases/$xenn/"
                 new_iso_name="ubuntu-$xenn-server-amd64-unattended.iso"
                 break;;
         * ) echo " please answer [1], [2] or [3]";;
@@ -148,7 +148,7 @@ fi
 seed_file="netson.seed"
 if [[ ! -f $tmp/$seed_file ]]; then
     echo -n " downloading $seed_file: "
-    download "https://raw.githubusercontent.com/netson/ubuntu-unattended/master/$seed_file"
+    download "https://raw.githubusercontent.com/jms1989/ubuntu-unattended/master/$seed_file"
 fi
 
 # install required packages
