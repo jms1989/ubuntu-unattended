@@ -53,6 +53,7 @@ tasksel tasksel/first                                       multiselect Basic Ub
 d-i pkgsel/upgrade                                          select      safe-upgrade
 d-i pkgsel/update-policy                                    select      none
 d-i pkgsel/updatedb                                         boolean     true
+d-i pkgsel/include                                          string      openssh-server
 
 # disk partitioning
 d-i partman/confirm_write_new_label                         boolean     true
