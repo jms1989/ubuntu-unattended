@@ -24,7 +24,7 @@ d-i netcfg/get_domain                                       string      {{hostna
 d-i mirror/country                                          string      manual
 d-i mirror/http/hostname                                    string      mirror.lstn.net
 d-i mirror/http/directory                                   string      /ubuntu
-d-i mirror/http/proxy                                       string      fileserver:3142
+d-i mirror/http/proxy                                       string      fileserver.sanlan:3142
 
 # clock and timezone settings
 d-i time/zone                                               string      {{timezone}}
