@@ -5,8 +5,10 @@ set -e
 default_hostname="$(hostname)"
 default_domain="ubuntu.local"
 default_puppetmaster="foreman.sanlan"
+default_puppet="n"
 tmp="/root/"
 username="$(logname)"
+authorized_keyfile="http://fileserver.sanlan:80/my-machines.pub"
 
 clear
 
@@ -42,7 +44,7 @@ if ! grep -q "noninteractive" /proc/cmdline ; then
 
     # ask whether to add puppetlabs repositories
     while true; do
-        read -p " do you wish to add the latest puppet repositories from puppetlabs? [y/n]: " yn
+        read -p " do you wish to add the latest puppet repositories from puppetlabs? [y/n]: " -i "$default_puppet" yn
         case $yn in
             [Yy]* ) include_puppet_repo=1
                     puppet_deb="puppetlabs-release-"$ubuntu_version".deb"
@@ -58,7 +60,7 @@ if ! grep -q "noninteractive" /proc/cmdline ; then
     if [[ include_puppet_repo ]] ; then
         # ask whether to setup puppet agent or not
         while true; do
-            read -p " do you wish to setup the puppet agent? [y/n]: " yn
+            read -p " do you wish to setup the puppet agent? [y/n]: " -i "$default_puppet" yn
             case $yn in
                 [Yy]* ) setup_agent=1
                         read -ep " please enter your puppet master: " -i "$default_puppetmaster" puppetmaster
@@ -79,7 +81,7 @@ echo " preparing your server; this may take a few minutes ..."
 # Copy User SSH Authorized Keys
 mkdir -p -m 700 /home/$username/.ssh;
 chown $username:$username /home/$username/.ssh;
-wget http://fileserver.sanlan:80/my-machines.pub -O /home/$username/.ssh/authorized_keys;
+wget $authorized_keyfile -O /home/$username/.ssh/authorized_keys;
 chown $username:$username /home/$username/.ssh/authorized_keys;
 
 # set fqdn
