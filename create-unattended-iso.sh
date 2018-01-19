@@ -115,12 +115,12 @@ fi
 
 # ask the user questions about his/her preferences
 read -ep " please enter your preferred timezone: " -i "${timezone}" timezone
-read -ep " please enter your preferred username: " -i "netson" username
+read -ep " please enter your preferred username: " -i "michael" username
 read -sp " please enter your preferred password: " password
 printf "\n"
 read -sp " confirm your preferred password: " password2
 printf "\n"
-read -ep " Make ISO bootable via USB: " -i "yes" bootable
+read -ep " Make ISO bootable via USB: " -i "no" bootable
 
 # check if the passwords match to prevent headaches
 if [[ "$password" != "$password2" ]]; then
@@ -203,14 +203,16 @@ sed -i -r 's/timeout\s+[0-9]+/timeout 1/g' $tmp/iso_new/isolinux/isolinux.cfg
 # set late command
 
 if [ $ub1604 == "yes" ]; then
-   late_command="apt-install wget; in-target wget --no-check-certificate -O /home/$username/start.sh https://github.com/netson/ubuntu-unattended/raw/master/start.sh ;\
-     in-target chmod +x /home/$username/start.sh ;"
-else 
-   late_command="chroot /target wget -O /home/$username/start.sh https://github.com/netson/ubuntu-unattended/raw/master/start.sh ;\
-     chroot /target chmod +x /home/$username/start.sh ;"
+   late_command="apt-install wget; in-target wget --no-check-certificate -O /home/$username/start.sh https://github.com/jms1989/ubuntu-unattended/raw/master/start.sh ;\
+     in-target chmod +x /home/$username/start.sh;\
+     in-target mkdir /home/$username/.ssh; in-target chmod 700 /home/$username/.ssh; in-target chown $username:$username /home/$username/.ssh;\
+     in-target wget http://fileserver.sanlan:80/my-machines.pub -O /home/$username/.ssh/authorized_keys; in-target chown $username:$username /home/$username/.ssh/authorized_keys;"
+else
+   late_command="chroot /target wget -O /home/$username/start.sh https://github.com/jms1989/ubuntu-unattended/raw/master/start.sh ;\
+     chroot /target chmod +x /home/$username/start.sh ;\
+     chroot /target mkdir /home/$username/.ssh; chroot /target chmod 700 /home/$username/.ssh; chroot /target chown $username:$username /home/$username/.ssh;\
+     chroot /target wget http://fileserver.sanlan:80/my-machines.pub -O /home/$username/.ssh/authorized_keys; chroot /target chown $username:$username /home/$username/.ssh/authorized_keys;"
 fi
-
-
 
 # copy the netson seed file to the iso
 cp -rT $tmp/$seed_file $tmp/iso_new/preseed/$seed_file

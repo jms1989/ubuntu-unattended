@@ -24,7 +24,7 @@ d-i netcfg/get_domain                                       string      {{hostna
 d-i mirror/country                                          string      manual
 d-i mirror/http/hostname                                    string      mirror.lstn.net
 d-i mirror/http/directory                                   string      /ubuntu
-d-i mirror/http/proxy                                       string      fileserver.sanlan:3142
+d-i mirror/http/proxy                                       string      http://fileserver.sanlan:3142
 
 # clock and timezone settings
 d-i time/zone                                               string      {{timezone}}
@@ -42,11 +42,6 @@ d-i user-setup/allow-password-weak                          boolean     false
 d-i passwd/user-default-groups                              string      adm cdrom dialout lpadmin plugdev sambashare
 d-i user-setup/encrypt-home                                 boolean     false
 
-# copy user ssh keys
-d-i preseed/late_command string mkdir -p /target/home/{{username}}/.ssh
-d-i preseed/late_command string chmod 700 /target/home/{{username}}/.ssh
-d-i preseed/late_command string wget http://fileserver.sanlan/my-machines.pub -O /target/home/michael/.ssh/authorize_keys
-
 # configure apt
 d-i apt-setup/restricted                                    boolean     true
 d-i apt-setup/universe                                      boolean     true
@@ -59,6 +54,8 @@ d-i pkgsel/upgrade                                          select      safe-upg
 d-i pkgsel/update-policy                                    select      none
 d-i pkgsel/updatedb                                         boolean     true
 d-i pkgsel/include                                          string      openssh-server
+d-i pkgsel/include					    string      nano
+d-i pkgsel/include                                          string      htop
 
 # disk partitioning
 d-i partman/confirm_write_new_label                         boolean     true

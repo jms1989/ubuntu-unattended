@@ -3,9 +3,10 @@ set -e
 
 # set defaults
 default_hostname="$(hostname)"
-default_domain="netson.local"
-default_puppetmaster="foreman.netson.nl"
+default_domain="ubuntu.local"
+default_puppetmaster="foreman.sanlan"
 tmp="/root/"
+username="$(logname)"
 
 clear
 
@@ -75,6 +76,12 @@ fi
 # print status message
 echo " preparing your server; this may take a few minutes ..."
 
+# Copy User SSH Authorized Keys
+mkdir -p -m 700 /home/$username/.ssh;
+chown $username:$username /home/$username/.ssh;
+wget http://fileserver.sanlan:80/my-machines.pub -O /home/$username/.ssh/authorized_keys;
+chown $username:$username /home/$username/.ssh/authorized_keys;
+
 # set fqdn
 fqdn="$hostname.$domain"
 
@@ -87,7 +94,7 @@ hostname "$hostname"
 # update repos
 apt-get -y update
 apt-get -y upgrade
-apt-get -y dist-upgrade
+#apt-get -y dist-upgrade
 apt-get -y autoremove
 apt-get -y purge
 
