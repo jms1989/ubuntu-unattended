@@ -4,7 +4,7 @@ set -e
 # set defaults
 default_hostname="$(hostname)"
 default_domain="ubuntu.local"
-default_puppetmaster="foreman.sanlan"
+default_puppetmaster="puppetmaster.sanlan"
 default_puppet="n"
 tmp="/root/"
 username="$(logname)"
