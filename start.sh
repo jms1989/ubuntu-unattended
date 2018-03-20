@@ -3,7 +3,7 @@ set -e
 
 # set defaults
 default_hostname="$(hostname)"
-default_domain="ubuntu.local"
+default_domain="sanlan"
 default_puppetmaster="puppetmaster.sanlan"
 default_puppet="n"
 tmp="/root/"
@@ -95,7 +95,7 @@ hostname "$hostname"
 
 # update repos
 apt-get -y update
-apt-get -y upgrade
+apt-get -y -o Dpkg::Options::="--force-confold" upgrade 
 #apt-get -y dist-upgrade
 apt-get -y autoremove
 apt-get -y purge
@@ -129,7 +129,7 @@ pluginsync=true\n\
         if [[ ! -f $tmp/finish.sh ]]; then
             echo -n " downloading finish.sh: "
             cd $tmp
-            download "https://raw.githubusercontent.com/netson/ubuntu-unattended/master/finish.sh"
+            download "https://raw.githubusercontent.com/jms1989/ubuntu-unattended/master/finish.sh"
         fi
 
         # set proper permissions on finish script
